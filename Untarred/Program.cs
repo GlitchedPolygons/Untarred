@@ -25,12 +25,46 @@ foreach (string arg in args)
         {
             outputDirectory = outputDirectory[..^4];
         }
+
+        if (Directory.Exists(outputDirectory))
+        {
+            outputDirectory = $"{outputDirectory}_{DateTime.Now.ToString("yyyyMMddHHmmss")}";
+        }
+
+        if (Directory.Exists(outputDirectory))
+        {
+            outputDirectory = $"{outputDirectory}_{Guid.NewGuid():N}";
+        }
+
+        Directory.CreateDirectory(outputDirectory);
         
         await using FileStream inputFileStream = new(arg, FileMode.Open);
         await using GZipStream gzStream = new GZipStream(inputFileStream, CompressionMode.Decompress);
         await using TarReader tarReader = new TarReader(gzStream);
-        
-        // TODO
+
+        for (;;)
+        {
+            TarEntry? tarEntry = await tarReader.GetNextEntryAsync();
+
+            if (tarEntry is null)
+            {
+                break;
+            }
+
+            switch (tarEntry.EntryType)
+            {
+                case TarEntryType.Directory:
+                {
+                    // TODO
+                    break;
+                }
+                case TarEntryType.RegularFile:
+                {
+                    // TODO
+                    break;
+                }
+            }
+        }
     }
     catch (Exception e)
     {
