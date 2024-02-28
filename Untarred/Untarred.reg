@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.tar.gz\shell\Untarred]
+@="Decompress .tar.gz here into new directory"
+"Icon"="Untarred.ico"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.tar.gz\shell\Untarred\command]
+@="cmd.exe /C \"Untarred.exe \"%1\"\""
