@@ -18,3 +18,7 @@ Works on Linux and Mac too, but there it's used via the CLI (where it's kinda re
 * Enjoy <3
 
 Alternatively, you can also copy and paste `Untarred.exe` into the directory of your precious archives, and then select what you want to decompress and **drag 'n' drop** them _into_ the `Untarred.exe`
+
+---
+
+`Untarred.exe` is the opposite of [`Tarred.exe`](https://github.com/GlitchedPolygons/Tarred), which provides easy context-menu compression of directories and files via the Windows context menu.
