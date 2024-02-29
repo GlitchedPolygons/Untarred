@@ -35,13 +35,13 @@ foreach (string arg in args)
         {
             outputDirectory = $"{outputDirectory}_{Guid.NewGuid():N}";
         }
-
-        Directory.CreateDirectory(outputDirectory);
         
         await using FileStream inputFileStream = new(arg, FileMode.Open);
         await using GZipStream gzStream = new GZipStream(inputFileStream, CompressionMode.Decompress);
         await using TarReader tarReader = new TarReader(gzStream);
 
+        bool outputDirectoryCreated = false;
+        
         for (;;)
         {
             TarEntry? tarEntry = await tarReader.GetNextEntryAsync();
@@ -51,16 +51,28 @@ foreach (string arg in args)
                 break;
             }
 
+            if (!outputDirectoryCreated)
+            {
+                outputDirectoryCreated = true;
+                Directory.CreateDirectory(outputDirectory);
+            }
+
             switch (tarEntry.EntryType)
             {
                 case TarEntryType.Directory:
+                case TarEntryType.DirectoryList:
                 {
-                    // TODO
+                    Directory.CreateDirectory(Path.Combine(outputDirectory, tarEntry.Name));
                     break;
                 }
+                case TarEntryType.HardLink:
+                case TarEntryType.SymbolicLink:
+                case TarEntryType.SparseFile:
                 case TarEntryType.RegularFile:
+                case TarEntryType.V7RegularFile:
+                case TarEntryType.ContiguousFile:
                 {
-                    // TODO
+                    await tarEntry.ExtractToFileAsync(Path.Combine(outputDirectory, tarEntry.Name), true);
                     break;
                 }
             }
