@@ -1,12 +1,10 @@
 # Untarred
 
-## Not necessary on Windows 11 anymore because it's already in the shell
-
 Damn... Just select .tar.gz files inside Windows Explorer and decompress them locally using the right-mouse button context menu.
 
 Works on Linux and Mac too, but there it's used via the CLI (where it's kinda redundant with the original `tar` CLI, except the arguments list is slightly cleaner I guess).
 
-### How to use
+## How to use
 
 * Download and extract the correct binaries based on your system
 * * Or build from source if you want
